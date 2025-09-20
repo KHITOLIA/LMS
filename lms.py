@@ -478,14 +478,16 @@ def index():
 
 @app.route('/register', methods=['GET','POST'])
 def register():
+    admin_exists = User.query.filter_by(role='admin').first() is not None
+
     if request.method=='POST':
         name = request.form['name']
         email = request.form['email']
         password = request.form['password']
         role = request.form.get('role','student')
 
-        # Check if admin already exists
-        if role == 'admin' and User.query.filter_by(role='admin').first():
+        # Prevent creating another admin
+        if role == 'admin' and admin_exists:
             flash('An admin already exists. Cannot create another admin.', 'danger')
             return redirect(url_for('register'))
 
@@ -500,7 +502,9 @@ def register():
         flash('Account created. Please login.','success')
         return redirect(url_for('login'))
 
-    return render_template('register.html')
+    return render_template('register.html', admin_exists=admin_exists)
+
+
 @app.route('/login', methods=['GET','POST'])
 def login():
     if request.method=='POST':
