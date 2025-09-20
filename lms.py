@@ -483,17 +483,24 @@ def register():
         email = request.form['email']
         password = request.form['password']
         role = request.form.get('role','student')
+
+        # Check if admin already exists
+        if role == 'admin' and User.query.filter_by(role='admin').first():
+            flash('An admin already exists. Cannot create another admin.', 'danger')
+            return redirect(url_for('register'))
+
         if User.query.filter_by(email=email).first():
             flash('Email already registered','danger')
             return redirect(url_for('register'))
+
         u = User(name=name,email=email,role=role)
         u.set_password(password)
         db.session.add(u)
         db.session.commit()
         flash('Account created. Please login.','success')
         return redirect(url_for('login'))
-    return render_template('register.html')
 
+    return render_template('register.html')
 @app.route('/login', methods=['GET','POST'])
 def login():
     if request.method=='POST':
