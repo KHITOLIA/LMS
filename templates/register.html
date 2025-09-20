@@ -9,10 +9,15 @@
         <div class="mb-2"><input class="form-control" name="email" placeholder="Email" type="email" required></div>
         <div class="mb-2"><input class="form-control" name="password" placeholder="Password" type="password" required></div>
         <div class="mb-2">
-          <select class="form-select" name="role">
-            <option value="student" selected>Student</option>
-            <option value="admin">Admin</option>
-          </select>
+          <div class="mb-2">
+  <select class="form-select" name="role">
+    <option value="student" selected>Student</option>
+    {% if not admin_exists %}
+      <option value="admin">Admin</option>
+    {% endif %}
+  </select>
+</div>
+
         </div>
         <button class="btn btn-success">Register</button>
       </form>
