@@ -1,0 +1,40 @@
+{% extends 'layout.html' %}
+{% block content %}
+<h3>Enrollments for Batch: {{ batch.name }}</h3>
+<p class="small-muted">{{ batch.description }}</p>
+<hr>
+{% if enrollments %}
+<div class="table-responsive">
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th>#</th>
+        <th>Student Name</th>
+        <th>Email</th>
+        <th>Action</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for e in enrollments %}
+      <tr>
+        <td>{{ loop.index }}</td>
+        <td>{{ e.user.name }}</td>
+        <td>{{ e.user.email }}</td>
+        <td>
+          <a class="btn btn-sm btn-outline-danger"
+             href="{{ url_for('delete_enrollment', enroll_id=e.id) }}"
+             onclick="return confirm('Remove this student from batch?')">
+             Remove
+          </a>
+        </td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+{% else %}
+<p>No students enrolled in this batch yet.</p>
+{% endif %}
+<a class="btn btn-secondary mt-2" href="{{ url_for('dashboard') }}">Back to Dashboard</a>
+{% endblock %}
+  

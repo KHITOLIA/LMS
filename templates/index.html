@@ -1,0 +1,32 @@
+{% extends 'layout.html' %}
+{% block content %}
+<div class="row">
+  <div class="col-md-8">
+    <div class="card card-ghost p-4 mb-3">
+      <h3>Welcome to LMS</h3>
+      <p class="small-muted">Learning takes nothing just be consistent and true to yourself</p>
+    </div>
+    <div class="row">
+      {% for b in batches %}
+      <div class="col-md-6 mb-3">
+        <div class="card p-3">
+          <h5>{{ b.name }}</h5>
+          <p class="small-muted">{{ b.description or '' }}</p>
+          <a class="btn btn-sm btn-outline-primary" href="{{ url_for('view_batch', batch_id=b.id) }}">View</a>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+  <div class="col-md-4">
+    <div class="card p-3">
+      <h5>Quick Actions</h5>
+      {% if current_user() and current_user().role == 'admin' %}
+        <a class="btn btn-primary w-100 mb-2" href="{{ url_for('admin_dashboard') }}">Open Admin Dashboard</a>
+      {% else %}
+        <p>Login as admin to manage batches and students.</p>
+      {% endif %}
+    </div>
+  </div>
+</div>
+{% endblock %}

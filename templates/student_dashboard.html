@@ -1,0 +1,26 @@
+{% extends 'layout.html' %}
+{% block content %}
+<h3>Student Dashboard</h3>
+<div class="row">
+  <div class="col-md-8">
+    <div class="card p-3 mb-3">
+      <h5>Your Batches</h5>
+      <div class="list-group">
+        {% for e in enrollments %}
+          <a class="list-group-item list-group-item-action" href="{{ url_for('view_batch', batch_id=e.batch.id) }}">{{ e.batch.name }} <small class="small-muted">- enrolled {{ e.enrolled_at.strftime('%Y-%m-%d') }}</small></a>
+        {% endfor %}
+      </div>
+    </div>
+  </div>
+  <div class="col-md-4">
+    <div class="card p-3">
+      <h6>Available Batches</h6>
+      <ul>
+        {% for b in batches %}
+          <li>{{ b.name }}</li>
+        {% endfor %}
+      </ul>
+    </div>
+  </div>
+</div>
+{% endblock %}

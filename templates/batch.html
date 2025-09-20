@@ -1,0 +1,39 @@
+batch_html = '''{% extends 'layout.html' %}
+{% block content %}
+<h3>Batch: {{ batch.name }}</h3>
+<p class="small-muted">{{ batch.description }}</p>
+<hr>
+{% if is_admin() %}
+<div class="card p-3 mb-3">
+  <h5>Upload Recording</h5>
+  <form method="post" action="{{ url_for('upload', batch_id=batch.id) }}" enctype="multipart/form-data">
+    <div class="mb-2"><input type="file" name="file" class="form-control" required></div>
+    <div class="mb-2"><input class="form-control" name="notes" placeholder="Notes (optional)"></div>
+    <button class="btn btn-success">Upload</button>
+  </form>
+</div>
+{% endif %}
+<h5>Recordings</h5>
+{% if recordings %}
+  <div class="row">
+    {% for r in recordings %}
+    <div class="col-md-6 mb-3">
+      <div class="card p-2">
+        <h6>{{ r.original_name }}</h6>
+        <video width="320" height="240" controls>
+    <source src="{{ url_for('serve_recording', batch_id=batch.id, filename=r.filename) }}" type="video/mp4">
+    Your browser does not support the video tag.
+</video>
+
+        <p class="small-muted">{{ r.notes or '' }}</p>
+        {% if is_admin() %}
+        <a class="btn btn-sm btn-outline-danger mt-1" href="{{ url_for('delete_recording', rec_id=r.id) }}" onclick="return confirm('Delete recording?')">Delete</a>
+        {% endif %}
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+{% else %}
+  <p>No recordings yet.</p>
+{% endif %}
+{% endblock %}'''

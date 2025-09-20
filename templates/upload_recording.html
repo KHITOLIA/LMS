@@ -1,0 +1,22 @@
+{% extends 'layout.html' %}
+{% block content %}
+<div class="row justify-content-center">
+  <div class="col-md-6">
+    <div class="card p-4 card-ghost">
+      <h4>Upload Recording to {{ batch.name }}</h4>
+      <form method="post" action="{{ url_for('upload', batch_id=batch.id) }}" enctype="multipart/form-data">
+        <div class="mb-3">
+          <label class="form-label">Select File</label>
+          <input type="file" name="file" class="form-control" required>
+        </div>
+        <div class="mb-3">
+          <label class="form-label">Notes (Optional)</label>
+          <input type="text" name="notes" class="form-control" placeholder="Any description for this recording">
+        </div>
+        <button class="btn btn-success w-100">Upload</button>
+        <a class="btn btn-outline-secondary w-100 mt-2" href="{{ url_for('view_batch', batch_id=batch.id) }}">Back to Batch</a>
+      </form>
+    </div>
+  </div>
+</div>
+{% endblock %}

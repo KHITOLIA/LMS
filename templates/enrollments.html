@@ -1,0 +1,36 @@
+enrollments_html = '''{% extends 'layout.html' %}
+{% block content %}
+<h3>All Enrollments</h3>
+<div class="card p-3">
+  {% if enrollments %}
+    <table class="table table-striped">
+      <thead>
+        <tr>
+          <th>#</th>
+          <th>Student Name</th>
+          <th>Student Email</th>
+          <th>Batch Name</th>
+          <th>Enrolled On</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for e in enrollments %}
+        <tr>
+          <td>{{ loop.index }}</td>
+          <td>{{ e.user.name }}</td>
+          <td>{{ e.user.email }}</td>
+          <td>{{ e.batch.name }}</td>
+          <td>{{ e.enrolled_at.strftime('%Y-%m-%d %H:%M') }}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  {% else %}
+    <p>No enrollments yet.</p>
+  {% endif %}
+</div>
+{% endblock %}
+'''
+
+# Ensure template file exists
+create_file_if_missing(TEMPLATES_DIR / 'enrollments.html', enrollments_html)

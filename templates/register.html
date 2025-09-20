@@ -1,0 +1,23 @@
+{% extends 'layout.html' %}
+{% block content %}
+<div class="row justify-content-center">
+  <div class="col-md-6">
+    <div class="card p-4">
+      <h4>Create account</h4>
+      <form method="post" action="{{ url_for('register') }}">
+        <div class="mb-2"><input class="form-control" name="name" placeholder="Full name" required></div>
+        <div class="mb-2"><input class="form-control" name="email" placeholder="Email" type="email" required></div>
+        <div class="mb-2"><input class="form-control" name="password" placeholder="Password" type="password" required></div>
+        <div class="mb-2">
+          <select class="form-select" name="role">
+            <option value="student" selected>Student</option>
+            <option value="admin">Admin</option>
+          </select>
+        </div>
+        <button class="btn btn-success">Register</button>
+      </form>
+      <p class="small-muted mt-2">Already registered? <a href="{{ url_for('login') }}">Login here</a>.</p>
+    </div>
+  </div>
+</div>
+{% endblock %}

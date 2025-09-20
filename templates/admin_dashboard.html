@@ -1,0 +1,81 @@
+{% extends 'layout.html' %}
+{% block content %}
+<h3 class="mb-4">Admin Dashboard</h3>
+
+<div class="row g-4">
+  <!-- Left column: Create batch + Enroll student + Search -->
+  <div class="col-lg-6">
+    <!-- Create Batch Card -->
+    <div class="card p-3 shadow-sm mb-3">
+      <h5>Create Batch</h5>
+      <form method="post" action="{{ url_for('create_batch') }}">
+        <div class="mb-2">
+          <input class="form-control" name="name" placeholder="Batch name" required>
+        </div>
+        <div class="mb-2">
+          <textarea class="form-control" name="description" placeholder="Description"></textarea>
+        </div>
+        <button class="btn btn-primary w-100">Create</button>
+      </form>
+    </div>
+
+    <!-- Enroll Student Card -->
+    <div class="card p-3 shadow-sm mb-3">
+      <h5>Enroll Student</h5>
+      <form method="post" action="{{ url_for('enroll_student') }}">
+        <div class="mb-2">
+          <select class="form-select" name="user_id" required>
+            <option value="">Select student</option>
+            {% for u in students %}
+              <option value="{{ u.id }}">{{ u.name }} ({{ u.email }})</option>
+            {% endfor %}
+          </select>
+        </div>
+        <div class="mb-2">
+          <select class="form-select" name="batch_id" required>
+            <option value="">Select batch</option>
+            {% for b in batches %}
+              <option value="{{ b.id }}">{{ b.name }}</option>
+            {% endfor %}
+          </select>
+        </div>
+        <button class="btn btn-success w-100">Enroll</button>
+      </form>
+    </div>
+
+    <!-- Search Student Card -->
+    <div class="card p-3 shadow-sm">
+      <h5>Search Student</h5>
+      <form method="get" action="{{ url_for('search_student_batches') }}">
+        <div class="input-group mb-2">
+          <input class="form-control" name="query" placeholder="Email or Enrollment ID" required>
+          <button class="btn btn-primary">Search</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Right column: All Batches -->
+  <div class="col-lg-6">
+    <div class="card p-3 shadow-sm">
+      <h5>All Batches</h5>
+      <ul class="list-group list-group-flush mt-3">
+        {% for b in batches %}
+          <li class="list-group-item d-flex justify-content-between align-items-center">
+            <div>
+              <strong>{{ b.name }}</strong><br>
+              <small class="small-muted">{{ b.description or '' }}</small>
+            </div>
+            <div class="btn-group btn-group-sm" role="group">
+              <a class="btn btn-sm btn-outline-warning" href="{{ url_for('edit_batch', batch_id=b.id) }}">Edit</a>
+              <a class="btn btn-sm btn-outline-info" href="{{ url_for('view_batch_enrollments', batch_id=b.id) }}">View Enrollments</a>
+              <a class="btn btn-outline-primary" href="{{ url_for('view_batch', batch_id=b.id) }}">Open</a>
+              <a class="btn btn-outline-danger" href="{{ url_for('delete_batch', batch_id=b.id) }}" onclick="return confirm('Delete batch? This will remove recordings and enrollments.')">Delete</a>
+            </div>
+          </li>
+        {% endfor %}
+      </ul>
+    </div>
+  </div>
+</div>
+{% endblock %}
