@@ -296,7 +296,7 @@ student_dashboard_html = '''{% extends 'layout.html' %}
 {% endblock %}'''
 
 # Updated batch template to include video playback using serve_recording endpoint
-batch_html = '''{% extends 'layout.html' %}
+'''{% extends 'layout.html' %}
 {% block content %}
 <h3>Batch: {{ batch.name }}</h3>
 <p class="small-muted">{{ batch.description }}</p>
